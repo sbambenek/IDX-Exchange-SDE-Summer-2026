@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const pool = require('./db');
+const propertiesRouter = require('./routes/properties');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -21,6 +22,8 @@ app.get('/api/health', async (req, res) => {
     res.status(500).json({ status: 'error', database: 'disconnected' });
   }
 });
+
+app.use('/api/properties', propertiesRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
