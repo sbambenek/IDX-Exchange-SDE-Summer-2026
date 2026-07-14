@@ -2,6 +2,64 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 
+// GET /api/properties/:id/openhouses — MUST be registered before /:id
+router.get('/:id/openhouses', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate ID: must be numeric digits only, reasonable length
+    if (!/^\d{1,20}$/.test(id)) {
+      return res.status(400).json({ error: 'Invalid listing ID format' });
+    }
+
+    // First verify the property exists
+    const [propertyRows] = await pool.query(
+      'SELECT id FROM rets_property WHERE L_ListingID = ?',
+      [id]
+    );
+
+    if (propertyRows.length === 0) {
+      return res.status(404).json({ error: 'Property not found' });
+    }
+
+    // Then query open houses for that property
+    const [openHouseRows] = await pool.query(
+      'SELECT * FROM rets_openhouse WHERE L_ListingID = ? ORDER BY OpenHouseDate ASC, OH_StartTime ASC',
+      [id]
+    );
+
+    res.status(200).json(openHouseRows);
+  } catch (error) {
+    console.error('Error fetching open houses:', error.message);
+    res.status(500).json({ error: 'Failed to fetch open houses' });
+  }
+});
+
+// GET /api/properties/:id — registered AFTER /:id/openhouses
+router.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!/^\d{1,20}$/.test(id)) {
+      return res.status(400).json({ error: 'Invalid listing ID format' });
+    }
+
+    const [rows] = await pool.query(
+      'SELECT * FROM rets_property WHERE L_ListingID = ?',
+      [id]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Property not found' });
+    }
+
+    res.status(200).json(rows[0]);
+  } catch (error) {
+    console.error('Error fetching property:', error.message);
+    res.status(500).json({ error: 'Failed to fetch property' });
+  }
+});
+
 router.get('/', async (req, res) => {
   try {
     const { city, zipcode, minPrice, maxPrice, beds, baths, limit, offset } = req.query;
