@@ -2,17 +2,14 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../db');
 
-// GET /api/properties/:id/openhouses — MUST be registered before /:id
 router.get('/:id/openhouses', async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Validate ID: must be numeric digits only, reasonable length
     if (!/^\d{1,20}$/.test(id)) {
       return res.status(400).json({ error: 'Invalid listing ID format' });
     }
 
-    // First verify the property exists
     const [propertyRows] = await pool.query(
       'SELECT id FROM rets_property WHERE L_ListingID = ?',
       [id]
@@ -22,7 +19,6 @@ router.get('/:id/openhouses', async (req, res) => {
       return res.status(404).json({ error: 'Property not found' });
     }
 
-    // Then query open houses for that property
     const [openHouseRows] = await pool.query(
       'SELECT * FROM rets_openhouse WHERE L_ListingID = ? ORDER BY OpenHouseDate ASC, OH_StartTime ASC',
       [id]
@@ -35,7 +31,6 @@ router.get('/:id/openhouses', async (req, res) => {
   }
 });
 
-// GET /api/properties/:id — registered AFTER /:id/openhouses
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
