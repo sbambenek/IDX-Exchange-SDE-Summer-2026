@@ -26,3 +26,9 @@
 .listings-error {
   color: #c0392b;
 }
+
+.listings-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+}

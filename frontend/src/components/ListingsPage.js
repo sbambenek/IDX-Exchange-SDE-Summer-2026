@@ -49,6 +49,7 @@ function ListingsPage() {
 
   return (
     <div className="listings-page">
+      <h1 className="listings-title">Property Listings</h1>
       <p className="listings-count">
         Showing {properties.length} of {total} properties
       </p>
