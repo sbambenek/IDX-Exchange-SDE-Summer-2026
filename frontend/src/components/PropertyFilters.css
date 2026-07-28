@@ -1,0 +1,45 @@
+.property-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: #f7f7f7;
+  border-radius: 8px;
+}
+
+.property-filters input,
+.property-filters select {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.property-filters input {
+  width: 130px;
+}
+
+.property-filters-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.property-filters-buttons button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.property-filters-buttons button[type='submit'] {
+  background: #2b6cb0;
+  color: white;
+}
+
+.property-filters-buttons button[type='button'] {
+  background: #e2e2e2;
+  color: #333;
+}
