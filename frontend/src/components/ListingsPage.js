@@ -1,27 +1,35 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropertyCard from './PropertyCard';
 import PropertyFilters from './PropertyFilters';
+import Pagination from './Pagination';
 import { fetchProperties } from '../api/client';
 import './ListingsPage.css';
+
+const ITEMS_PER_PAGE = 20;
 
 function ListingsPage() {
   const [properties, setProperties] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [activeFilters, setActiveFilters] = useState({});
 
-  // Tracks the most recent request so stale responses can be ignored
   const latestRequestId = useRef(0);
 
-  const loadProperties = useCallback(async (filters = {}) => {
+  const loadProperties = useCallback(async (filters, page) => {
     const requestId = ++latestRequestId.current;
     setLoading(true);
     setError(null);
 
     try {
-      const data = await fetchProperties(filters);
+      const offset = (page - 1) * ITEMS_PER_PAGE;
+      const data = await fetchProperties({
+        ...filters,
+        limit: ITEMS_PER_PAGE,
+        offset
+      });
 
-      // Ignore this response if a newer request has since been made
       if (requestId !== latestRequestId.current) {
         return;
       }
@@ -41,16 +49,27 @@ function ListingsPage() {
   }, []);
 
   useEffect(() => {
-    loadProperties();
-  }, [loadProperties]);
+    loadProperties(activeFilters, currentPage);
+  }, [loadProperties, activeFilters, currentPage]);
 
   function handleSearch(filters) {
-    loadProperties(filters);
+    setActiveFilters(filters);
+    setCurrentPage(1); // reset to page 1 on new filters
   }
 
   function handleClear() {
-    loadProperties();
+    setActiveFilters({});
+    setCurrentPage(1);
   }
+
+  function handlePageChange(page) {
+    setCurrentPage(page);
+    window.scrollTo(0, 0);
+  }
+
+  const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
+  const startItem = total === 0 ? 0 : (currentPage - 1) * ITEMS_PER_PAGE + 1;
+  const endItem = Math.min(currentPage * ITEMS_PER_PAGE, total);
 
   return (
     <div className="listings-page">
@@ -66,16 +85,23 @@ function ListingsPage() {
       {!loading && !error && (
         <>
           <p className="listings-count">
-            Showing {properties.length} of {total} properties
+            Showing {startItem}-{endItem} of {total} properties
           </p>
           {properties.length === 0 ? (
             <div className="listings-status">No properties found. Try adjusting your filters.</div>
           ) : (
-            <div className="listings-grid">
-              {properties.map((property) => (
-                <PropertyCard key={property.L_ListingID} property={property} />
-              ))}
-            </div>
+            <>
+              <div className="listings-grid">
+                {properties.map((property) => (
+                  <PropertyCard key={property.L_ListingID} property={property} />
+                ))}
+              </div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </>
           )}
         </>
       )}
