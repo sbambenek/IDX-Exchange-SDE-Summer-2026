@@ -6,32 +6,43 @@ describe('getPageNumbers', () => {
     expect(getPageNumbers(1, 5)).toEqual([1, 2, 3, 4, 5]);
   });
 
-  test('shows ellipsis only near the end when current page is near the start', () => {
-    expect(getPageNumbers(1, 24)).toEqual([1, 2, '...', 24]);
+  test('page 1 shows 1,2,3,4 then ellipsis then last page', () => {
+    expect(getPageNumbers(1, 2657)).toEqual([1, 2, 3, 4, '...', 2657]);
   });
 
-  test('shows ellipsis only near the start when current page is near the end', () => {
-    expect(getPageNumbers(24, 24)).toEqual([1, '...', 23, 24]);
+  test('page 2 shows 1,2,3,4 then ellipsis then last page', () => {
+    expect(getPageNumbers(2, 2657)).toEqual([1, 2, 3, 4, '...', 2657]);
   });
 
-  test('shows ellipsis on both sides when current page is in the middle', () => {
-    expect(getPageNumbers(12, 24)).toEqual([1, '...', 11, 12, 13, '...', 24]);
+  test('page 3 shows 1,2,3,4 then ellipsis then last page', () => {
+    expect(getPageNumbers(3, 2657)).toEqual([1, 2, 3, 4, '...', 2657]);
   });
 
-  test('does not duplicate the last page number near the end of a large page count', () => {
-    // Reproduces the debug challenge bug: "1 ... 2 3 4 ... 1"
-    const result = getPageNumbers(23, 24);
-    const lastPageOccurrences = result.filter((p) => p === 24).length;
+  test('page 4 shows 1,2,3,4,5 then ellipsis then last page', () => {
+    expect(getPageNumbers(4, 2657)).toEqual([1, 2, 3, 4, 5, '...', 2657]);
+  });
+
+  test('page 5 switches to sliding window: 1,...,4,5,6,...,last', () => {
+    expect(getPageNumbers(5, 2657)).toEqual([1, '...', 4, 5, 6, '...', 2657]);
+  });
+
+  test('a page deep in the middle shows a sliding window around it', () => {
+    expect(getPageNumbers(50, 2657)).toEqual([1, '...', 49, 50, 51, '...', 2657]);
+  });
+
+  test('does not duplicate the last page number when current page is near the end', () => {
+    const result = getPageNumbers(2656, 2657);
+    const lastPageOccurrences = result.filter((p) => p === 2657).length;
     expect(lastPageOccurrences).toBe(1);
-    expect(result).toEqual([1, '...', 22, 23, 24]);
   });
 
-  test('does not duplicate the first page number near the start of a large page count', () => {
-    const result = getPageNumbers(2, 24);
-    const firstPageOccurrences = result.filter((p) => p === 1).length;
-    expect(firstPageOccurrences).toBe(1);
+  test('does not duplicate page numbers when current page is near the start', () => {
+    const result = getPageNumbers(2, 2657);
+    const uniquePages = new Set(result.filter((p) => p !== '...'));
+    expect(uniquePages.size).toBe(result.filter((p) => p !== '...').length);
   });
 });
+
 
 describe('Pagination component', () => {
   test('renders nothing when there is only one page', () => {

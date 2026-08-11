@@ -1,0 +1,11 @@
+.property-map {
+  margin-bottom: 24px;
+}
+
+.map-directions-link {
+  display: inline-block;
+  margin-top: 8px;
+  color: #2b6cb0;
+  text-decoration: none;
+  font-size: 14px;
+}

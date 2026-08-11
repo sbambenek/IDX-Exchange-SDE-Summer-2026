@@ -60,3 +60,9 @@
   font-size: 14px;
   color: #444;
 }
+
+.property-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}

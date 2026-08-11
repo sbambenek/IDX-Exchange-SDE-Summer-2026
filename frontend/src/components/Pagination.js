@@ -1,47 +1,40 @@
 import React from 'react';
 import './Pagination.css';
 
-const SIBLING_COUNT = 1; 
-const BOUNDARY_COUNT = 1;
-
 export function getPageNumbers(currentPage, totalPages) {
-  // Case 1: everything fits without ellipsis
-  const totalVisibleWithoutEllipsis = BOUNDARY_COUNT * 2 + SIBLING_COUNT * 2 + 3;
-  if (totalPages <= totalVisibleWithoutEllipsis) {
+  // If there aren't many pages at all, just show every page number
+  if (totalPages <= 7) {
     return Array.from({ length: totalPages }, (_, i) => i + 1);
   }
 
-  const pages = [];
+  let pageSet;
 
-  const leftSiblingStart = Math.max(currentPage - SIBLING_COUNT, BOUNDARY_COUNT + 2);
-  const rightSiblingEnd = Math.min(currentPage + SIBLING_COUNT, totalPages - BOUNDARY_COUNT - 1);
-
-  // Always show first page(s)
-  pages.push(1);
-
-  // Left ellipsis or page 2
-  if (leftSiblingStart > BOUNDARY_COUNT + 2) {
-    pages.push('...');
-  } else if (leftSiblingStart === BOUNDARY_COUNT + 2) {
-    pages.push(2);
+  if (currentPage <= 4) {
+    // Pages 1-4: show 1,2,3,4 (or 1-5 once you're on page 4), then last page
+    const rightBound = Math.max(4, currentPage + 1);
+    pageSet = new Set([
+      1,
+      ...Array.from({ length: rightBound }, (_, i) => i + 1),
+      totalPages
+    ]);
+  } else {
+    // Page 5 onward: sliding window around the current page
+    pageSet = new Set([1, currentPage - 1, currentPage, currentPage + 1, totalPages]);
   }
 
-  // Middle range
-  for (let i = leftSiblingStart; i <= rightSiblingEnd; i++) {
-    pages.push(i);
+  const sortedPages = Array.from(pageSet)
+    .filter((p) => p >= 1 && p <= totalPages)
+    .sort((a, b) => a - b);
+
+  const result = [];
+  for (let i = 0; i < sortedPages.length; i++) {
+    if (i > 0 && sortedPages[i] - sortedPages[i - 1] > 1) {
+      result.push('...');
+    }
+    result.push(sortedPages[i]);
   }
 
-  // Right ellipsis or second-to-last page
-  if (rightSiblingEnd < totalPages - BOUNDARY_COUNT - 1) {
-    pages.push('...');
-  } else if (rightSiblingEnd === totalPages - BOUNDARY_COUNT - 1) {
-    pages.push(totalPages - 1);
-  }
-
-  // Always show last page
-  pages.push(totalPages);
-
-  return pages;
+  return result;
 }
 
 function Pagination({ currentPage, totalPages, onPageChange }) {

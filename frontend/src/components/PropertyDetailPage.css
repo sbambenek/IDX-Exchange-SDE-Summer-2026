@@ -1,0 +1,62 @@
+.property-detail-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.detail-back-link {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: #2b6cb0;
+  text-decoration: none;
+}
+
+.detail-price {
+  font-size: 32px;
+  margin: 0 0 4px 0;
+}
+
+.detail-address {
+  font-size: 18px;
+  margin: 0;
+}
+
+.detail-location {
+  color: #666;
+  margin: 0 0 16px 0;
+}
+
+.detail-stats {
+  display: flex;
+  gap: 20px;
+  font-size: 15px;
+  margin-bottom: 24px;
+  padding: 12px 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.detail-description,
+.detail-open-houses {
+  margin-bottom: 24px;
+}
+
+.detail-status {
+  padding: 48px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.detail-error {
+  color: #c0392b;
+}
+
+.detail-map-section {
+  margin-bottom: 24px;
+}
+
+.open-house-remarks {
+  margin: 4px 0 12px 0;
+  color: #555;
+  font-size: 14px;
+}
