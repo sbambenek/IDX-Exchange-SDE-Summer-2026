@@ -1,19 +1,30 @@
 .listings-page {
-  padding: 24px;
-  max-width: 1200px;
+  padding: 32px 24px 24px;
+  max-width: 1280px;
   margin: 0 auto;
 }
 
+.listings-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 20px 0;
+  color: #1a1a1a;
+}
+
 .listings-count {
-  font-size: 16px;
-  color: #444;
-  margin-bottom: 16px;
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 20px 0;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 24px;
 }
 
 .listings-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
 }
 
 .listings-status {
@@ -25,10 +36,4 @@
 
 .listings-error {
   color: #c0392b;
-}
-
-.listings-title {
-  font-size: 28px;
-  font-weight: 700;
-  margin: 0 0 4px 0;
 }

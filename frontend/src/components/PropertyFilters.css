@@ -1,20 +1,23 @@
 .property-filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
   align-items: center;
-  margin-bottom: 24px;
-  padding: 16px;
-  background: #f7f7f7;
-  border-radius: 8px;
+  margin: 0 auto 32px;
+  padding: 20px 24px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  max-width: 1280px;
 }
 
 .property-filters input,
 .property-filters select {
-  padding: 8px 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 10px 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
   font-size: 14px;
+  background: #fafafa;
 }
 
 .property-filters input {
@@ -24,14 +27,16 @@
 .property-filters-buttons {
   display: flex;
   gap: 8px;
+  margin-left: auto;
 }
 
 .property-filters-buttons button {
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 10px 20px;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 600;
 }
 
 .property-filters-buttons button[type='submit'] {
@@ -39,7 +44,11 @@
   color: white;
 }
 
+.property-filters-buttons button[type='submit']:hover {
+  background: #235a92;
+}
+
 .property-filters-buttons button[type='button'] {
-  background: #e2e2e2;
+  background: #f0f0f0;
   color: #333;
 }
