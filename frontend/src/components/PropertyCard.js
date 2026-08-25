@@ -4,11 +4,7 @@ import { useFavorites } from '../hooks/FavoritesContext';
 import './PropertyCard.css';
 import PropTypes from 'prop-types';
 import PropertyImageCarousel from './PropertyImageCarousel';
-
-function formatPrice(price) {
-  if (price === null || price === undefined) return 'Price not available';
-  return `$${Number(price).toLocaleString()}`;
-}
+import { formatPrice } from '../utils/formatters';
 
 function PropertyCard({ property }) {
   const { isFavorite, toggleFavorite } = useFavorites();
