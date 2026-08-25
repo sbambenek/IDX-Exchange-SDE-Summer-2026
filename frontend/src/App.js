@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import ListingsPage from './components/ListingsPage';
-import PropertyDetailPage from './components/PropertyDetailPage';
-import FavoritesPage from './components/FavoritesPage';
+import ListingsPage from './pages/ListingsPage';
+import PropertyDetailPage from './pages/PropertyDetailPage';
+import FavoritesPage from './pages/FavoritesPage';
 import { FavoritesProvider, useFavorites } from './hooks/FavoritesContext';
 import ErrorBoundary from './components/ErrorBoundary';
 import './App.css';

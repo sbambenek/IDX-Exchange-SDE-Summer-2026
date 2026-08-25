@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import PropertyCard from './PropertyCard';
-import PropertyFilters from './PropertyFilters';
-import Pagination from './Pagination';
+import PropertyCard from '../components/PropertyCard';
+import PropertyFilters from '../components/PropertyFilters';
+import Pagination from '../components/Pagination';
 import { fetchProperties } from '../api/client';
 import './ListingsPage.css';
 

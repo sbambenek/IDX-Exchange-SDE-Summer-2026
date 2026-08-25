@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { fetchPropertyDetail, fetchOpenHouses } from '../api/client';
-import PropertyImageGallery from './PropertyImageGallery';
-import PropertyMap from './PropertyMap';
+import PropertyImageGallery from '../components/PropertyImageGallery';
+import PropertyMap from '../components/PropertyMap';
 import './PropertyDetailPage.css';
 
 function formatPrice(price) {

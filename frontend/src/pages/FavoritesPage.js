@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PropertyCard from './PropertyCard';
+import PropertyCard from '../components/PropertyCard';
 import { useFavorites } from '../hooks/FavoritesContext';
 import { fetchPropertyDetail } from '../api/client';
 import './ListingsPage.css';
