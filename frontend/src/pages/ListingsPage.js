@@ -54,7 +54,7 @@ function ListingsPage() {
 
   function handleSearch(filters) {
     setActiveFilters(filters);
-    setCurrentPage(1); // reset to page 1 on new filters
+    setCurrentPage(1);
   }
 
   function handleClear() {
@@ -76,7 +76,12 @@ function ListingsPage() {
       <h1 className="listings-title">Property Listings</h1>
       <PropertyFilters onSearch={handleSearch} onClear={handleClear} />
 
-      {loading && <div className="listings-status">Loading properties...</div>}
+      {loading && (
+        <div className="listings-status">
+          <div className="spinner"></div>
+          Loading properties...
+        </div>
+      )}
 
       {!loading && error && (
         <div className="listings-status listings-error">Error: {error}</div>
