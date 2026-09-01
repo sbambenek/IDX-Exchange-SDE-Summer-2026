@@ -2,12 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useFavorites } from '../hooks/FavoritesContext';
 import './PropertyCard.css';
+import PropTypes from 'prop-types';
 import PropertyImageCarousel from './PropertyImageCarousel';
-
-function formatPrice(price) {
-  if (price === null || price === undefined) return 'Price not available';
-  return `$${Number(price).toLocaleString()}`;
-}
+import { formatPrice } from '../utils/formatters';
 
 function PropertyCard({ property }) {
   const { isFavorite, toggleFavorite } = useFavorites();
@@ -48,5 +45,19 @@ function PropertyCard({ property }) {
     </Link>
   );
 }
+
+PropertyCard.propTypes = {
+  property: PropTypes.shape({
+    L_ListingID: PropTypes.string.isRequired,
+    L_Photos: PropTypes.string,
+    L_Address: PropTypes.string,
+    L_City: PropTypes.string,
+    L_State: PropTypes.string,
+    L_SystemPrice: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    L_Keyword2: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    LM_Dec_3: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    LM_Int2_3: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+  }).isRequired
+};
 
 export default PropertyCard;
